@@ -1,0 +1,41 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FIngerWPF"
+        xmlns:Model="clr-namespace:FIngerWPF.Model" x:Class="FIngerWPF.FingerManage"
+        mc:Ignorable="d"
+        Title="FingerManage" Height="300" Width="300" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="fingerInfoViewSource" d:DesignSource="{d:DesignInstance {x:Type Model:FingerInfo}, CreateList=True}"/>
+        <CollectionViewSource x:Key="accountInfoViewSource" d:DesignSource="{d:DesignInstance {x:Type Model:AccountInfo}, CreateList=True}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource fingerInfoViewSource}">
+        <Button x:Name="button" Content="添加指纹信息" Margin="196,10,10,0" Click="button_Click" Background="#FF3483B0" Foreground="White" BorderBrush="#FF004270" Height="30" VerticalAlignment="Top"/>
+        <DataGrid x:Name="fingerInfoDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" Margin="10,50,10,10" RowDetailsVisibilityMode="VisibleWhenSelected">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="accountNameColumn" Binding="{Binding AccountName}" Header="Account Name" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="fingerIdColumn" Binding="{Binding FingerId}" Header="Finger Id" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="fingerStringColumn" Binding="{Binding FingerString}" Header="Finger String" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid x:Name="grid1" DataContext="{StaticResource accountInfoViewSource}" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="用户名:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <ComboBox x:Name="accountNameComboBox" Grid.Column="1" DisplayMemberPath="AccountName" HorizontalAlignment="Left" Height="Auto" ItemsSource="{Binding}" Margin="3" Grid.Row="0" VerticalAlignment="Center" Width="120">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+            </ComboBox>
+        </Grid>
+    </Grid>
+</Window>
